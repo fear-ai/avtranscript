@@ -1,0 +1,26 @@
+vendorId,hasProgram,programName,commissionRate,commissionType,cookieDuration,minimumPayout,paymentSchedule,status,startDate,ftcCompliant,disclosureRequired,disclosureText,baseCommission,bonusCommission,totalClicks,totalConversions,conversionRate,totalRevenue,totalCommission,pendingCommission,lastUpdated,confidence,source
+rev-001,true,Rev Publisher Program,20,percentage,30,50,monthly,active,2025-01-01,true,true,"This post contains affiliate links. We may earn a commission if you make a purchase through our links.",20,0,1250,89,7.12,8900,1335,267,2025-08-20,95,vendor-provided
+otter-ai-001,true,Otter.ai Partner Program,20,percentage,45,100,monthly,active,2025-01-15,true,true,"This review contains affiliate links. We may earn a commission if you sign up through our links.",20,0,2100,156,7.43,15600,3120,624,2025-08-20,92,vendor-provided
+sonix-001,true,Sonix Affiliate Network,12,percentage,30,75,monthly,active,2025-02-01,true,true,"This comparison contains affiliate links. We may earn a commission if you choose this service.",12,3,890,67,7.53,6700,804,161,2025-08-20,88,manual-research
+trint-001,true,Trint Partner Program,15,percentage,30,100,monthly,active,2025-01-01,true,true,"This service review contains affiliate links. We may earn a commission if you choose this platform.",15,0,0,0,0,0,0,0,2025-08-20,90,manual-research
+descript-001,true,Descript Creator Program,18,percentage,60,50,monthly,active,2025-01-20,true,true,"This tool review contains affiliate links. We may earn a commission if you subscribe through our links.",18,2,1560,134,8.59,13400,2412,482,2025-08-20,94,vendor-provided
+fireflies-001,true,Fireflies Partner Program,16,percentage,30,100,monthly,pending,2025-03-01,true,true,"This service review contains affiliate links. We may earn a commission if you choose this platform.",16,0,0,0,0,0,0,0,2025-08-20,85,manual-research
+temi-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,80,manual-research
+happy-scribe-001,true,Happy Scribe Affiliate,14,percentage,30,50,monthly,active,2025-02-15,true,true,"This transcription service review contains affiliate links. We may earn a commission if you use our links.",14,1,670,45,6.72,4500,630,126,2025-08-20,87,manual-research
+speak-ai-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+beey-io-001,true,Beey Partner Program,13,percentage,30,75,monthly,active,2025-03-01,true,true,"This media production tool review contains affiliate links. We may earn a commission if you choose this service.",13,2,420,28,6.67,2800,364,73,2025-08-20,82,manual-research
+fathom-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+alice-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+google-recorder-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,90,manual-research
+turboscribe-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+vomo-ai-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,80,manual-research
+scripsy-ai-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+transkriptor-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+transcribeme-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+verbit-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+scribie-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+nova-ai-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+glasp-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+looppanel-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+dialpad-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research
+read-ai-001,false,,0,percentage,0,0,monthly,inactive,2025-01-01,false,false,,0,0,0,0,0,0,0,0,2025-08-20,75,manual-research

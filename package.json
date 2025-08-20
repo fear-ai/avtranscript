@@ -2,9 +2,15 @@
   "private": true,
   "scripts": {
     "dev": "next",
+    "convert:data": "tsx scripts/convert-csv-json.ts",
+    "convert:affiliates": "tsx scripts/convert-affiliate-json.ts",
+    "build:data": "tsx scripts/compile-data.ts",
+    "prebuild": "npm run convert:data && npm run convert:affiliates && npm run build:data",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "validate:data": "tsx scripts/validate-data.ts",
+    "validate:affiliates": "tsx scripts/validate-affiliates.ts"
   },
   "dependencies": {
     "next": "latest",
@@ -12,9 +18,16 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^12.12.21",
-    "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.1",
-    "typescript": "^4.8.3"
+    "@types/node": "^12.20.55",
+    "@types/react": "^17.0.87",
+    "@types/react-dom": "^17.0.26",
+    "typescript": "^4.9.5",
+    "ajv": "^8.17.1",
+    "autoprefixer": "^10.4.21",
+    "csv-parser": "^3.2.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.12",
+    "tsx": "^4.20.4",
+    "zod": "^3.25.76"
   }
 }
