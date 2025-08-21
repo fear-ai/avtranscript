@@ -36,11 +36,11 @@ async function convertAffiliatesToJson() {
       return affiliate
     })
 
-    console.log(`📊 Parsed ${affiliates.length} affiliate records from CSV`)
+    console.log(`Parsed ${affiliates.length} affiliate records from CSV`)
 
     // Validate data
     const validatedAffiliates = validateAffiliateData(affiliates)
-    console.log(`✅ Validated ${validatedAffiliates.length} affiliate records`)
+    console.log(`Validated ${validatedAffiliates.length} affiliate records`)
 
     // Generate JSON with metadata
     const jsonData = {
@@ -76,18 +76,18 @@ async function convertAffiliatesToJson() {
     const jsonPath = join(__dirname, '../data/affiliates.json')
     writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2))
 
-    console.log(`📝 Generated JSON file: ${jsonPath}`)
-    console.log(`📊 Program status breakdown:`)
+    console.log(`Generated JSON file: ${jsonPath}`)
+    console.log(`Program status breakdown:`)
     console.log(`   Active: ${jsonData.metadata.programStatus.active}`)
     console.log(`   Pending: ${jsonData.metadata.programStatus.pending}`)
     console.log(`   Inactive: ${jsonData.metadata.programStatus.inactive}`)
-    console.log(`📊 Affiliate programs: ${jsonData.metadata.affiliatePrograms.hasProgram} active`)
-    console.log(`📊 Compliance: ${jsonData.metadata.compliance.ftcCompliant} FTC compliant`)
-    console.log(`📊 Performance: ${jsonData.metadata.performance.highConversion} high conversion`)
-    console.log(`🎉 Successfully converted affiliate CSV to JSON`)
+    console.log(`Affiliate programs: ${jsonData.metadata.affiliatePrograms.hasProgram} active`)
+    console.log(`Compliance: ${jsonData.metadata.compliance.ftcCompliant} FTC compliant`)
+    console.log(`Performance: ${jsonData.metadata.performance.highConversion} high conversion`)
+          console.log(`Successfully converted affiliate CSV to JSON`)
 
   } catch (error) {
-    console.error('❌ Error converting affiliate CSV to JSON:', error)
+    console.error('Error converting affiliate CSV to JSON:', error)
     process.exit(1)
   }
 }

@@ -63,3 +63,4 @@ export const VendorCard: React.FC<VendorCardProps> = ({ vendor }) => {
     </div>
   )
 }
+

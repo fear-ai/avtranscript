@@ -1,63 +1,62 @@
 # Transcript Platform
 
-A comprehensive platform for comparing audio and video transcription vendors, featuring detailed analysis of features, pricing, capabilities, and affiliate programs.
+A comprehensive vendor comparison platform for transcription services.
 
-## 📊 Data Overview
-- **25 transcription vendors** with comprehensive scoring and analysis
-- **25 affiliate programs** with commission structures and compliance data
-- **Real-time data processing** from CSV to optimized TypeScript
+## Data Overview
+- **25 Vendors**: Complete profiles with pricing, capabilities, and performance metrics
+- **25 Affiliate Programs**: Commission structures and compliance information
+- **Real-time Data**: Automated CSV → JSON → TypeScript pipeline
 
-## 🚀 Quick Start
+## Quick Start
 ```bash
-# Install dependencies
 npm install
-
-# Convert data and start development server
-npm run dev
+npm run prebuild  # Process data files
+npm run dev       # Start development server
 ```
-- **Open**: http://localhost:3000
 
-## 🔧 Available Commands
+## Data Pipeline
+The platform uses a build-time data processing pipeline:
+1. **CSV Sources**: Raw vendor and affiliate data
+2. **JSON Processing**: Validation and enrichment
+3. **TypeScript Output**: Type-safe, compiled data models
+
+## Architecture
+- **Next.js 14**: App Router with TypeScript
+- **Tailwind CSS**: Utility-first styling
+- **Zod Validation**: Runtime type safety
+- **Build-time Processing**: CSV → JSON → TS compilation
+
+## Development
 ```bash
-# Data Processing
-npm run convert:data          # Convert vendor CSV to JSON
-npm run convert:affiliates    # Convert affiliate CSV to JSON
-npm run build:data           # Compile JSON to TypeScript
-npm run prebuild             # Run all data conversion steps
-
-# Development
-npm run dev                  # Start development server
-npm run build               # Build for production
-npm run start               # Start production server
-
-# Validation
-npm run validate:data       # Validate vendor data
-npm run validate:affiliates # Validate affiliate data
-npm run type-check          # TypeScript type checking
+npm run prebuild    # Process CSV data
+npm run build       # Build production app
+npm run dev         # Development server
+npm run lint        # Code quality checks
 ```
 
-## 🏗️ Architecture
-
-- **Data Pipeline**: CSV → JSON → TypeScript → Next.js
-- **Build-time Processing**: Static data compilation for performance
-- **Type Safety**: Full TypeScript coverage with Zod validation
-- **Nested Data**: Rich data structures with CSV-friendly notation
-- **Build Output**: Optimized static pages with Next.js
-
-## 📁 Project Structure
-
+## Project Structure
 ```
 avtranscript/
-├── data/           # Raw CSV data files
-├── lib/            # Core types and validators
-├── scripts/        # Data processing pipeline
-├── pages/          # Next.js application pages
+├── data/           # CSV source files
+├── lib/            # Generated TypeScript data
 ├── components/     # React components
-└── docs/           # Detailed documentation
+├── pages/          # Next.js pages
+└── scripts/        # Data processing scripts
 ```
 
-## 📚 Documentation
-- **PhaseI.md** - Complete implementation status, technical architecture, and design
+## Data Models
+- **Vendors**: Company info, pricing, capabilities, scoring
+- **Affiliates**: Program details, commissions, compliance
+- **Validation**: Automated quality checks and confidence scoring
+
+## Contributing
+1. Update CSV files in `data/` directory
+2. Run `npm run prebuild` to regenerate TypeScript
+3. Test changes with `npm run dev`
+4. Submit pull request with updated data
+
+## License
+MIT License - see LICENSE file for details
 
 
 **Version**: 0.1  

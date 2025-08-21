@@ -21,9 +21,9 @@ async function compileVendorData() {
     const jsonData = readFileSync(jsonPath, 'utf-8')
     const vendorData: VendorData = JSON.parse(jsonData)
 
-    console.log(`📊 Loaded ${vendorData.vendors.length} vendors from JSON`)
-    console.log(`📅 Data generated: ${vendorData.metadata.generatedAt}`)
-    console.log(`📊 Category breakdown:`)
+    console.log(`Loaded ${vendorData.vendors.length} vendors from JSON`)
+    console.log(`Data generated: ${vendorData.metadata.generatedAt}`)
+    console.log(`Category breakdown:`)
     Object.entries(vendorData.metadata.categories).forEach(([category, count]) => {
       console.log(`   ${category}: ${count}`)
     })
@@ -35,11 +35,11 @@ async function compileVendorData() {
     const outputPath = join(__dirname, '../lib/data/vendors.ts')
     writeFileSync(outputPath, tsContent)
 
-    console.log(`📝 Generated TypeScript file: ${outputPath}`)
-    console.log(`🎉 Successfully compiled ${vendorData.vendors.length} vendors`)
+    console.log(`Generated TypeScript file: ${outputPath}`)
+    console.log(`Successfully compiled ${vendorData.vendors.length} vendors`)
 
   } catch (error) {
-    console.error('❌ Error compiling vendor data:', error)
+    console.error('Error compiling vendor data:', error)
     process.exit(1)
   }
 }

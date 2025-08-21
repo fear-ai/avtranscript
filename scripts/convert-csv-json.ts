@@ -29,7 +29,7 @@ function parseCSVLine(line: string): string[] {
 
 async function convertCsvToJson() {
   try {
-    console.log('🔄 Converting CSV to JSON...')
+    console.log('Converting CSV to JSON...')
 
     // Read CSV file
     const csvPath = join(__dirname, '../data/vendors.csv')
@@ -68,11 +68,11 @@ async function convertCsvToJson() {
       return vendor
     })
 
-    console.log(`📊 Parsed ${vendors.length} vendors from CSV`)
+    console.log(`Parsed ${vendors.length} vendors from CSV`)
 
     // Debug: Check the first vendor's parsed data
     const firstVendor = vendors[0]
-    console.log('🔍 Debug - First vendor parsed data:')
+    console.log('Debug - First vendor parsed data:')
     console.log('  marketPosition:', firstVendor.marketPosition)
     console.log('  partnerships:', firstVendor.partnerships)
     console.log('  capabilities:', firstVendor.capabilities)
@@ -229,17 +229,17 @@ async function convertCsvToJson() {
       return processed
     })
 
-    console.log(`📊 Processed ${processedVendors.length} vendors with nested fields`)
+    console.log(`Processed ${processedVendors.length} vendors with nested fields`)
 
     // Debug: Check the first vendor's processed data
     const firstProcessed = processedVendors[0]
-    console.log('🔍 Debug - First vendor processed data:')
+    console.log('Debug - First vendor processed data:')
     console.log('  marketPosition:', firstProcessed.marketPosition)
     console.log('  partnerships:', firstProcessed.partnerships)
 
     // Validate data
     const validatedVendors = validateVendorData(processedVendors)
-    console.log(`✅ Validated ${validatedVendors.length} vendors`)
+    console.log(`Validated ${validatedVendors.length} vendors`)
 
     // Generate JSON with metadata
     const jsonData = {
@@ -276,17 +276,17 @@ async function convertCsvToJson() {
     const jsonPath = join(__dirname, '../data/vendors.json')
     writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2))
 
-    console.log(`📝 Generated JSON file: ${jsonPath}`)
-    console.log(`📊 Category breakdown:`)
+    console.log(`Generated JSON file: ${jsonPath}`)
+    console.log(`Category breakdown:`)
     console.log(`   Selected: ${jsonData.metadata.categories.selected}`)
     console.log(`   Recommended: ${jsonData.metadata.categories.recommended}`)
     console.log(`   Alternative: ${jsonData.metadata.categories.alternative}`)
-    console.log(`📊 Affiliate programs: ${jsonData.metadata.affiliatePrograms.active} active`)
-    console.log(`📊 Scoring breakdown: ${jsonData.metadata.scoring.highScore} high, ${jsonData.metadata.scoring.mediumScore} medium, ${jsonData.metadata.scoring.lowScore} low`)
-    console.log(`🎉 Successfully converted CSV to JSON`)
+    console.log(`Affiliate programs: ${jsonData.metadata.affiliatePrograms.active} active`)
+    console.log(`Scoring breakdown: ${jsonData.metadata.scoring.highScore} high, ${jsonData.metadata.scoring.mediumScore} medium, ${jsonData.metadata.scoring.lowScore} low`)
+    console.log(`Successfully converted CSV to JSON`)
 
   } catch (error) {
-    console.error('❌ Error converting CSV to JSON:', error)
+    console.error('Error converting CSV to JSON:', error)
     process.exit(1)
   }
 }

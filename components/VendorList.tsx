@@ -132,3 +132,4 @@ export const VendorList: React.FC<VendorListProps> = ({ vendors }) => {
     </div>
   )
 }
+

@@ -14,7 +14,7 @@ interface VendorData {
 
 async function validateJsonData() {
   try {
-    console.log('🔍 Validating JSON vendor data...')
+    console.log('Validating JSON vendor data...')
 
     // Read JSON file
     const jsonPath = join(__dirname, '../data/vendors.json')
@@ -25,8 +25,8 @@ async function validateJsonData() {
       throw new Error('No vendors found in JSON data')
     }
 
-    console.log(`📊 Found ${vendorData.vendors.length} vendors to validate`)
-    console.log(`📅 Data generated: ${vendorData.metadata.generatedAt}`)
+    console.log(`Found ${vendorData.vendors.length} vendors to validate`)
+    console.log(`Data generated: ${vendorData.metadata.generatedAt}`)
 
     let validCount = 0
     let errorCount = 0
@@ -37,29 +37,29 @@ async function validateJsonData() {
         validCount++
       } catch (error) {
         errorCount++
-        console.error(`❌ Validation error for vendor ${i + 1} (${vendorData.vendors[i].id}):`, error)
+        console.error(`Validation error for vendor ${i + 1} (${vendorData.vendors[i].id}):`, error)
       }
     }
 
-    console.log(`\n📋 Validation Results:`)
-    console.log(`✅ Valid vendors: ${validCount}`)
-    console.log(`❌ Invalid vendors: ${errorCount}`)
-    console.log(`📊 Total vendors: ${vendorData.vendors.length}`)
+    console.log(`\nValidation Results:`)
+    console.log(`Valid vendors: ${validCount}`)
+    console.log(`Invalid vendors: ${errorCount}`)
+    console.log(`Total vendors: ${vendorData.vendors.length}`)
 
     // Show metadata summary
-    console.log(`\n📊 Data Summary:`)
+    console.log(`\nData Summary:`)
     console.log(`   Categories:`, vendorData.metadata.categories)
     console.log(`   Tiers:`, vendorData.metadata.tiers)
 
     if (errorCount > 0) {
-      console.error('\n❌ Validation failed!')
+      console.error('\nValidation failed!')
       process.exit(1)
     } else {
-      console.log('\n🎉 All vendors passed validation!')
+      console.log('\nAll vendors passed validation!')
     }
 
   } catch (error) {
-    console.error('❌ Error validating data:', error)
+    console.error('Error validating data:', error)
     process.exit(1)
   }
 }

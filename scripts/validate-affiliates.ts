@@ -16,7 +16,7 @@ interface AffiliateData {
 
 async function validateAffiliateData() {
   try {
-    console.log('🔍 Validating affiliate data...')
+    console.log('Validating affiliate data...')
 
     // Read JSON file
     const jsonPath = join(__dirname, '../data/affiliates.json')
@@ -27,8 +27,8 @@ async function validateAffiliateData() {
       throw new Error('No affiliates found in JSON data')
     }
 
-    console.log(`📊 Found ${affiliateData.affiliates.length} affiliates to validate`)
-    console.log(`📅 Data generated: ${affiliateData.metadata.generatedAt}`)
+    console.log(`Found ${affiliateData.affiliates.length} affiliates to validate`)
+    console.log(`Data generated: ${affiliateData.metadata.generatedAt}`)
 
     let validCount = 0
     let errorCount = 0
@@ -39,31 +39,31 @@ async function validateAffiliateData() {
         validCount++
       } catch (error) {
         errorCount++
-        console.error(`❌ Validation error for affiliate ${i + 1} (${affiliateData.affiliates[i].vendorId}):`, error)
+        console.error(`Validation error for affiliate ${i + 1} (${affiliateData.affiliates[i].vendorId}):`, error)
       }
     }
 
-    console.log(`\n📋 Validation Results:`)
-    console.log(`✅ Valid affiliates: ${validCount}`)
-    console.log(`❌ Invalid affiliates: ${errorCount}`)
-    console.log(`📊 Total affiliates: ${affiliateData.affiliates.length}`)
+    console.log(`\nValidation Results:`)
+    console.log(`Valid affiliates: ${validCount}`)
+    console.log(`Invalid affiliates: ${errorCount}`)
+    console.log(`Total affiliates: ${affiliateData.affiliates.length}`)
 
     // Show metadata summary
-    console.log(`\n📊 Data Summary:`)
+    console.log(`\nData Summary:`)
     console.log(`   Program Status:`, affiliateData.metadata.programStatus)
     console.log(`   Affiliate Programs:`, affiliateData.metadata.affiliatePrograms)
     console.log(`   Compliance:`, affiliateData.metadata.compliance)
     console.log(`   Performance:`, affiliateData.metadata.performance)
 
     if (errorCount > 0) {
-      console.error('\n❌ Validation failed!')
+      console.error('\nValidation failed!')
       process.exit(1)
     } else {
-      console.log('\n🎉 All affiliates passed validation!')
+      console.log('\nAll affiliates passed validation!')
     }
 
   } catch (error) {
-    console.error('❌ Error validating affiliate data:', error)
+    console.error('Error validating affiliate data:', error)
     process.exit(1)
   }
 }
@@ -72,3 +72,4 @@ async function validateAffiliateData() {
 if (require.main === module) {
   validateAffiliateData()
 }
+
