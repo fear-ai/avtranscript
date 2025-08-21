@@ -2,50 +2,49 @@
 
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { 
+  handleGracefulError, 
+  runCommandWithErrorHandling,
+  handleFileOperationError 
+} from './utils/error-handler';
+import { getCachePath, getCSVFiles as getCSVFilePaths, getFileModTime } from './utils/paths';
+import { createLogger } from './utils/logger';
+
+const logger = createLogger('smart-build.ts', 'Smart Build System')
 
 interface FileTimestamp {
   path: string;
-  mtime: number;
+  mtime: Date;
 }
 
 interface CacheData {
-  csvFiles: FileTimestamp[];
-  lastBuild: number;
   dataFiles: FileTimestamp[];
+  lastBuild: Date;
+  buildHash: string;
 }
 
-const CACHE_FILE = '.build-cache.json';
+const CACHE_FILE = getCachePath('build')
 const CSV_DIR = 'data';
 const OUTPUT_DIR = 'lib/data';
-
-function getFileTimestamp(filePath: string): FileTimestamp | null {
-  try {
-    const stats = fs.statSync(filePath);
-    return {
-      path: filePath,
-      mtime: stats.mtime.getTime()
-    };
-  } catch {
-    return null;
-  }
-}
 
 function getCSVFiles(): FileTimestamp[] {
   const csvFiles: FileTimestamp[] = [];
   
   try {
-    const files = fs.readdirSync(CSV_DIR);
-    for (const file of files) {
-      if (file.endsWith('.csv')) {
-        const timestamp = getFileTimestamp(path.join(CSV_DIR, file));
-        if (timestamp) {
-          csvFiles.push(timestamp);
-        }
+    const csvPaths = getCSVFilePaths();
+    for (const filePath of csvPaths) {
+      const timestamp = getFileModTime(filePath);
+      if (timestamp) {
+        csvFiles.push({ path: filePath, mtime: timestamp });
       }
     }
-  } catch (error) {
-    console.log('📁 No CSV directory found, skipping data processing');
+  } catch (error: unknown) {
+    handleGracefulError(error, 'read CSV directory', {
+      script: 'smart-build.ts',
+      operation: 'Directory Reading'
+    }, () => {
+      logger.warning('No CSV directory found, skipping data processing')
+    });
     return [];
   }
   
@@ -61,9 +60,9 @@ function getOutputFiles(): FileTimestamp[] {
   
   for (const file of expectedFiles) {
     const filePath = path.join(OUTPUT_DIR, file);
-    const timestamp = getFileTimestamp(filePath);
+    const timestamp = getFileModTime(filePath);
     if (timestamp) {
-      outputFiles.push(timestamp);
+      outputFiles.push({ path: filePath, mtime: timestamp });
     }
   }
   
@@ -76,8 +75,13 @@ function loadCache(): CacheData | null {
       const cacheData = fs.readFileSync(CACHE_FILE, 'utf8');
       return JSON.parse(cacheData);
     }
-  } catch (error) {
-    console.log('⚠️  Could not load build cache, will rebuild');
+  } catch (error: unknown) {
+    handleGracefulError(error, 'load build cache', {
+      script: 'smart-build.ts',
+      operation: 'Cache Loading'
+    }, () => {
+      logger.warning('Could not load build cache, will rebuild')
+    });
   }
   return null;
 }
@@ -85,8 +89,13 @@ function loadCache(): CacheData | null {
 function saveCache(cache: CacheData): void {
   try {
     fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
-  } catch (error) {
-    console.log('⚠️  Could not save build cache');
+  } catch (error: unknown) {
+    handleGracefulError(error, 'save build cache', {
+      script: 'smart-build.ts',
+      operation: 'Cache Saving'
+    }, () => {
+      logger.warning('Could not save build cache')
+    });
   }
 }
 
@@ -121,18 +130,14 @@ function hasOutputChanged(currentOutput: FileTimestamp[], cachedOutput: FileTime
 }
 
 function runCommand(command: string, description: string): void {
-  console.log(`🔄 ${description}...`);
-  try {
-    execSync(command, { stdio: 'inherit' });
-    console.log(`✅ ${description} completed`);
-  } catch (error) {
-    console.error(`❌ ${description} failed`);
-    process.exit(1);
-  }
+  runCommandWithErrorHandling(command, description, {
+    script: 'smart-build.ts',
+    operation: 'Command Execution'
+  });
 }
 
 function main(): void {
-  console.log('🚀 Smart Build - Checking for changes...');
+  logger.info('Smart Build - Checking for changes...');
   
   const currentCSV = getCSVFiles();
   const currentOutput = getOutputFiles();
@@ -141,20 +146,20 @@ function main(): void {
   let shouldProcessData = false;
   
   if (!cache) {
-    console.log('📝 No cache found, processing all data...');
+    logger.info('No cache found, processing all data...');
     shouldProcessData = true;
-  } else if (hasCSVChanged(currentCSV, cache.csvFiles)) {
-    console.log('📊 CSV files changed, reprocessing data...');
+  } else if (hasCSVChanged(currentCSV, cache.dataFiles)) {
+    logger.info('CSV files changed, reprocessing data...');
     shouldProcessData = true;
-  } else if (hasOutputChanged(currentOutput, cache.outputFiles)) {
-    console.log('🔧 Output files changed, reprocessing data...');
+  } else if (hasOutputChanged(currentOutput, cache.dataFiles)) {
+    logger.info('Output files changed, reprocessing data...');
     shouldProcessData = true;
   } else {
-    console.log('✅ No changes detected, skipping data processing');
+    logger.info('No changes detected, skipping data processing');
   }
   
   if (shouldProcessData) {
-    console.log('\n📈 Processing CSV data...');
+    logger.info('\nProcessing CSV data...');
     
     // Run data conversion scripts
     if (currentCSV.length > 0) {
@@ -163,18 +168,18 @@ function main(): void {
     
     // Update cache
     const newCache: CacheData = {
-      csvFiles: currentCSV,
-      lastBuild: Date.now(),
-      dataFiles: getOutputFiles()
+      dataFiles: currentCSV,
+      lastBuild: new Date(),
+      buildHash: 'placeholder' // Placeholder for now
     };
     saveCache(newCache);
     
-    console.log('✅ Data processing completed');
+    logger.info('Data processing completed');
   } else {
-    console.log('⏭️  Skipping data processing (no changes)');
+    logger.info('Skipping data processing (no changes)');
   }
   
-  console.log('\n🏗️  Proceeding with Next.js build...');
+  logger.info('\nProceeding with Next.js build...');
 }
 
 if (require.main === module) {

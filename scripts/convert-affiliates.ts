@@ -1,46 +1,62 @@
-import { readFileSync, writeFileSync } from 'fs'
-import { join } from 'path'
+#!/usr/bin/env tsx
+
+import { writeFileSync } from 'fs';
+import { parseCSVFileSync } from './utils/csv-parser';
+import { getDataPath } from './utils/paths';
+import { createLogger } from './utils/logger';
 import { validateAffiliateData } from '../lib/validators/affiliate'
 
 async function convertAffiliatesToJson() {
+  const logger = createLogger('convert-affiliates.ts', 'CSV to JSON conversion')
+  
   try {
-    console.log('🔄 Converting affiliate CSV to JSON...')
+    logger.progress('Converting affiliate CSV to JSON')
 
-    // Read CSV file
-    const csvPath = join(__dirname, '../data/affiliates.csv')
-    const csvData = readFileSync(csvPath, 'utf-8')
+    // Get file paths using unified path management
+    const csvPath = getDataPath('affiliates', 'csv')
+    const jsonPath = getDataPath('affiliates', 'json')
+    
+    logger.fileOperation('Reading', csvPath)
+    
+    // Parse CSV using unified parser
+    const parsedData = parseCSVFileSync(csvPath)
+    logger.csvParsed('affiliates', parsedData.count, parsedData.headers)
 
-    // Parse CSV manually
-    const lines = csvData.split('\n').filter(line => line.trim())
-    const headers = lines[0].split(',').map(h => h.trim())
-    const affiliates = lines.slice(1).map(line => {
-      const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''))
-      const affiliate: Record<string, any> = {}
-      
-      headers.forEach((header, index) => {
-        let value: any = values[index] || ''
-        
-        // Convert numeric fields
-        if (['commissionRate', 'cookieDuration', 'minimumPayout', 'baseCommission', 'bonusCommission', 'totalClicks', 'totalConversions', 'conversionRate', 'totalRevenue', 'totalCommission', 'pendingCommission', 'confidence'].includes(header)) {
-          value = parseFloat(value) || 0
-        }
-        
-        // Convert boolean fields
-        if (['hasProgram', 'ftcCompliant', 'disclosureRequired'].includes(header)) {
-          value = value === 'true'
-        }
-        
-        affiliate[header] = value
-      })
-      
-      return affiliate
+    // Process affiliate data with type conversion
+    const affiliates = parsedData.records.map(affiliate => {
+      const processed: Record<string, any> = {
+        id: affiliate.id,
+        name: affiliate.name,
+        description: affiliate.description,
+        website: affiliate.website,
+        status: affiliate.status,
+        hasProgram: affiliate.hasProgram === 'true',
+        ftcCompliant: affiliate.ftcCompliant === 'true',
+        disclosureRequired: affiliate.disclosureRequired === 'true',
+        commissionRate: parseFloat(affiliate.commissionRate) || 0,
+        cookieDuration: parseInt(affiliate.cookieDuration) || 0,
+        minimumPayout: parseFloat(affiliate.minimumPayout) || 0,
+        baseCommission: parseFloat(affiliate.baseCommission) || 0,
+        bonusCommission: parseFloat(affiliate.bonusCommission) || 0,
+        totalClicks: parseInt(affiliate.totalClicks) || 0,
+        totalConversions: parseInt(affiliate.totalConversions) || 0,
+        conversionRate: parseFloat(affiliate.conversionRate) || 0,
+        totalRevenue: parseFloat(affiliate.totalRevenue) || 0,
+        totalCommission: parseFloat(affiliate.totalCommission) || 0,
+        pendingCommission: parseFloat(affiliate.pendingCommission) || 0,
+        confidence: parseFloat(affiliate.confidence) || 0,
+        lastUpdated: affiliate.lastUpdated
+      }
+
+      return processed
     })
 
-    console.log(`Parsed ${affiliates.length} affiliate records from CSV`)
+    logger.dataProcessed('affiliates', affiliates.length)
 
     // Validate data
+    logger.progress('Validating affiliate data')
     const validatedAffiliates = validateAffiliateData(affiliates)
-    console.log(`Validated ${validatedAffiliates.length} affiliate records`)
+    logger.validationResult('affiliates', validatedAffiliates.length)
 
     // Generate JSON with metadata
     const jsonData = {
@@ -73,21 +89,17 @@ async function convertAffiliatesToJson() {
     }
 
     // Write JSON file
-    const jsonPath = join(__dirname, '../data/affiliates.json')
     writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2))
+    logger.jsonGenerated('affiliates', jsonPath, {
+      totalAffiliates: jsonData.metadata.totalAffiliates,
+      activePrograms: jsonData.metadata.affiliatePrograms.hasProgram,
+      complianceRate: jsonData.metadata.compliance.ftcCompliant
+    })
 
-    console.log(`Generated JSON file: ${jsonPath}`)
-    console.log(`Program status breakdown:`)
-    console.log(`   Active: ${jsonData.metadata.programStatus.active}`)
-    console.log(`   Pending: ${jsonData.metadata.programStatus.pending}`)
-    console.log(`   Inactive: ${jsonData.metadata.programStatus.inactive}`)
-    console.log(`Affiliate programs: ${jsonData.metadata.affiliatePrograms.hasProgram} active`)
-    console.log(`Compliance: ${jsonData.metadata.compliance.ftcCompliant} FTC compliant`)
-    console.log(`Performance: ${jsonData.metadata.performance.highConversion} high conversion`)
-          console.log(`Successfully converted affiliate CSV to JSON`)
+    logger.completed('affiliate CSV to JSON conversion')
 
-  } catch (error) {
-    console.error('Error converting affiliate CSV to JSON:', error)
+  } catch (error: unknown) {
+    logger.error('CSV to JSON conversion failed', error)
     process.exit(1)
   }
 }

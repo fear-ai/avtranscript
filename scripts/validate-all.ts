@@ -9,6 +9,14 @@ interface ValidationStep {
   dependencies?: string[];
 }
 
+interface ValidationError extends Error {
+  step: string;
+  command: string;
+  exitCode?: number;
+  stderr?: string;
+  originalError?: unknown;
+}
+
 const VALIDATION_PIPELINE: ValidationStep[] = [
   {
     name: 'vendors',
@@ -22,6 +30,21 @@ const VALIDATION_PIPELINE: ValidationStep[] = [
     dependencies: ['vendors'] // Affiliates reference vendor data
   }
 ];
+
+function createValidationError(step: ValidationStep, originalError: unknown): ValidationError {
+  const error = new Error(`Validation step '${step.name}' failed: ${step.description}`) as ValidationError;
+  error.step = step.name;
+  error.command = step.command;
+  error.originalError = originalError;
+  
+  // Extract additional error information
+  if (originalError instanceof Error) {
+    error.message = `${error.message}\nOriginal error: ${originalError.message}`;
+    error.stack = originalError.stack;
+  }
+  
+  return error;
+}
 
 function runValidation(step: ValidationStep, completedSteps: Set<string>): void {
   // Check dependencies
@@ -38,9 +61,29 @@ function runValidation(step: ValidationStep, completedSteps: Set<string>): void 
     execSync(step.command, { stdio: 'inherit' });
     completedSteps.add(step.name);
     console.log(`✅ ${step.description} completed`);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`❌ ${step.description} failed`);
-    throw error;
+    
+    // Create enhanced error with context
+    const validationError = createValidationError(step, error);
+    
+    // Log detailed error information
+    console.error(`\n🔍 Error Details:`);
+    console.error(`  Step: ${validationError.step}`);
+    console.error(`  Command: ${validationError.command}`);
+    
+    if (error instanceof Error) {
+      console.error(`  Error Type: ${error.constructor.name}`);
+      console.error(`  Error Message: ${error.message}`);
+      if (error.stack) {
+        console.error(`  Stack Trace: ${error.stack.split('\n').slice(0, 3).join('\n')}`);
+      }
+    } else {
+      console.error(`  Error Type: ${typeof error}`);
+      console.error(`  Error Value: ${String(error)}`);
+    }
+    
+    throw validationError;
   }
 }
 
@@ -61,11 +104,28 @@ function main(): void {
     console.log('✅ Affiliate data validated');
     console.log('\n🚀 Data is ready for use');
     
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('\n💥 Data validation failed!');
     console.error('=' .repeat(60));
-    console.error('❌ Error:', error.message);
+    
+    if (error instanceof Error) {
+      console.error(`❌ Error: ${error.message}`);
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        console.error(error.stack);
+      }
+    } else {
+      console.error(`❌ Unknown Error: ${String(error)}`);
+    }
+    
     console.error('\n🔧 Check the logs above and fix the validation issues');
+    console.error('💡 Common validation issues:');
+    console.error('   - Missing or corrupted JSON data files');
+    console.error('   - Invalid data structure or missing required fields');
+    console.error('   - Type mismatches in data validation');
+    console.error('   - Missing vendor-affiliate relationships');
+    console.error('   - Data integrity violations');
+    
     process.exit(1);
   }
 }

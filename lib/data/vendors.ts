@@ -1,5 +1,5 @@
 // Auto-generated file - do not edit manually
-// Generated on: 2025-08-21T20:22:22.421Z
+// Generated on: 2025-08-21T21:53:09.608Z
 // Total vendors: 25
 
 import { Vendor } from '../types/vendor'

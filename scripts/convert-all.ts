@@ -11,6 +11,14 @@ interface DataPipelineStep {
   dependencies?: string[];
 }
 
+interface PipelineError extends Error {
+  step: string;
+  command: string;
+  exitCode?: number;
+  stderr?: string;
+  originalError?: unknown;
+}
+
 const DATA_PIPELINE: DataPipelineStep[] = [
   {
     name: 'vendors',
@@ -31,6 +39,21 @@ const DATA_PIPELINE: DataPipelineStep[] = [
   }
 ];
 
+function createPipelineError(step: DataPipelineStep, originalError: unknown): PipelineError {
+  const error = new Error(`Pipeline step '${step.name}' failed: ${step.description}`) as PipelineError;
+  error.step = step.name;
+  error.command = step.command;
+  error.originalError = originalError;
+  
+  // Extract additional error information
+  if (originalError instanceof Error) {
+    error.message = `${error.message}\nOriginal error: ${originalError.message}`;
+    error.stack = originalError.stack;
+  }
+  
+  return error;
+}
+
 function runStep(step: DataPipelineStep, completedSteps: Set<string>): void {
   // Check dependencies
   if (step.dependencies) {
@@ -46,9 +69,29 @@ function runStep(step: DataPipelineStep, completedSteps: Set<string>): void {
     execSync(step.command, { stdio: 'inherit' });
     completedSteps.add(step.name);
     console.log(`✅ ${step.description} completed`);
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`❌ ${step.description} failed`);
-    throw error;
+    
+    // Create enhanced error with context
+    const pipelineError = createPipelineError(step, error);
+    
+    // Log detailed error information
+    console.error(`\n🔍 Error Details:`);
+    console.error(`  Step: ${pipelineError.step}`);
+    console.error(`  Command: ${pipelineError.command}`);
+    
+    if (error instanceof Error) {
+      console.error(`  Error Type: ${error.constructor.name}`);
+      console.error(`  Error Message: ${error.message}`);
+      if (error.stack) {
+        console.error(`  Stack Trace: ${error.stack.split('\n').slice(0, 3).join('\n')}`);
+      }
+    } else {
+      console.error(`  Error Type: ${typeof error}`);
+      console.error(`  Error Value: ${String(error)}`);
+    }
+    
+    throw pipelineError;
   }
 }
 
@@ -70,11 +113,27 @@ function main(): void {
     console.log('✅ All data compiled to TypeScript');
     console.log('\n🚀 Ready for build');
     
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('\n💥 Data pipeline failed!');
     console.error('=' .repeat(70));
-    console.error('❌ Error:', error.message);
+    
+    if (error instanceof Error) {
+      console.error(`❌ Error: ${error.message}`);
+      if (error.stack) {
+        console.error(`\n📚 Stack Trace:`);
+        console.error(error.stack);
+      }
+    } else {
+      console.error(`❌ Unknown Error: ${String(error)}`);
+    }
+    
     console.error('\n🔧 Check the logs above and fix the issue');
+    console.error('💡 Common issues:');
+    console.error('   - Missing CSV files in data/ directory');
+    console.error('   - Invalid CSV format or data');
+    console.error('   - Permission issues with file operations');
+    console.error('   - Missing dependencies or TypeScript errors');
+    
     process.exit(1);
   }
 }

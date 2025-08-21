@@ -3,6 +3,11 @@
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
+import { 
+  handleGracefulError, 
+  runCommandWithErrorHandling,
+  handleFileOperationError 
+} from './utils/error-handler';
 
 const CACHE_FILES = [
   '.build-cache.json',
@@ -19,27 +24,29 @@ function removePath(pathToRemove: string): void {
   try {
     if (fs.existsSync(pathToRemove)) {
       if (fs.lstatSync(pathToRemove).isDirectory()) {
-        fs.rmSync(pathToRemove, { recursive: true, force: true });
+        // Use rmSync for directories (Node.js 14.14.0+)
+        (fs as any).rmSync(pathToRemove, { recursive: true, force: true });
         console.log(`🗑️  Removed directory: ${pathToRemove}`);
       } else {
         fs.unlinkSync(pathToRemove);
         console.log(`🗑️  Removed file: ${pathToRemove}`);
       }
     }
-  } catch (error) {
-    console.log(`⚠️  Could not remove ${pathToRemove}: ${error}`);
+  } catch (error: unknown) {
+    handleGracefulError(error, `remove ${pathToRemove}`, {
+      script: 'force-rebuild.ts',
+      operation: 'File Removal'
+    }, () => {
+      console.log(`⚠️  Could not remove ${pathToRemove}`);
+    });
   }
 }
 
 function runCommand(command: string, description: string): void {
-  console.log(`🔄 ${description}...`);
-  try {
-    execSync(command, { stdio: 'inherit' });
-    console.log(`✅ ${description} completed`);
-  } catch (error) {
-    console.error(`❌ ${description} failed`);
-    process.exit(1);
-  }
+  runCommandWithErrorHandling(command, description, {
+    script: 'force-rebuild.ts',
+    operation: 'Command Execution'
+  });
 }
 
 function validateStrictMode(): void {
@@ -62,9 +69,14 @@ function validateStrictMode(): void {
     }
     
     console.log('✅ TypeScript strict mode is enabled');
-  } catch (error) {
-    console.error('❌ Could not parse tsconfig.json');
-    process.exit(1);
+  } catch (error: unknown) {
+    handleGracefulError(error, 'parse tsconfig.json', {
+      script: 'force-rebuild.ts',
+      operation: 'TypeScript Config Validation'
+    }, () => {
+      console.error('❌ Could not parse tsconfig.json');
+      process.exit(1);
+    });
   }
 }
 
