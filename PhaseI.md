@@ -51,10 +51,10 @@ CSV Files → JSON Conversion → TypeScript Compilation → Next.js Application
 ```
 
 #### **Key Scripts**
-- **`convert-csv-json.ts`** - Converts vendor CSV to structured JSON with nested objects
-- **`convert-affiliate-json.ts`** - Converts affiliate CSV to JSON with type conversion
-- **`compile-data.ts`** - Compiles JSON into TypeScript data files for application use
-- **`validate-data.ts`** - Validates vendor data integrity with Zod schemas
+- **`convert-vendors.ts`** - Converts vendor CSV to structured JSON with nested objects
+- **`convert-affiliates.ts`** - Converts affiliate CSV to JSON with type conversion
+- **`compile-all.ts`** - Compiles JSON into TypeScript data files for application use
+- **`validate-vendors.ts`** - Validates vendor data integrity with Zod schemas
 - **`validate-affiliates.ts`** - Validates affiliate data with compliance checking
 
 ### **Build System** ✅ **COMPLETE**
@@ -401,10 +401,10 @@ CSV Files → JSON Conversion → TypeScript Compilation → Next.js Application
 ```
 
 #### **Conversion Scripts**
-- **`convert-csv-json.ts`**: Converts vendor CSV to structured JSON with nested objects
-- **`convert-affiliate-json.ts`**: Converts affiliate CSV to JSON with type conversion
-- **`compile-data.ts`**: Compiles JSON into TypeScript data files for application use
-- **`validate-data.ts`**: Validates vendor data integrity with Zod schemas
+- **`convert-vendors.ts`**: Converts vendor CSV to structured JSON with nested objects
+- **`convert-affiliates.ts`**: Converts affiliate CSV to JSON with type conversion
+- **`compile-all.ts`**: Compiles JSON into TypeScript data files for application use
+- **`validate-vendors.ts`**: Validates vendor data integrity with Zod schemas
 - **`validate-affiliates.ts`**: Validates affiliate data with compliance checking
 
 ### **4.2 Data Models** ✅ **COMPLETE**
@@ -420,7 +420,7 @@ CSV Files → JSON Conversion → TypeScript Compilation → Next.js Application
 ### **4.4 Technical Implementation Details** ✅ **COMPLETE**
 
 #### **CSV to JSON Conversion Strategy**
-The conversion script (`convert-csv-json.ts`) implements:
+The conversion script (`convert-vendors.ts`) implements:
 
 1. **Manual CSV Parsing** - Handles quoted fields and comma-separated lists
 2. **Field Mapping** - Converts underscore notation to nested objects

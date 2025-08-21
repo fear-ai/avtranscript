@@ -2,15 +2,21 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "convert:data": "tsx scripts/convert-csv-json.ts",
-    "convert:affiliates": "tsx scripts/convert-affiliate-json.ts",
-    "build:data": "tsx scripts/compile-data.ts",
-    "prebuild": "npm run convert:data && npm run convert:affiliates && npm run build:data",
+    "convert": "tsx scripts/convert-all.ts",
+    "convert:vendors": "tsx scripts/convert-vendors.ts",
+    "convert:affiliates": "tsx scripts/convert-affiliates.ts",
+    "convert:all": "tsx scripts/convert-all.ts",
+    "compile": "tsx scripts/compile-all.ts",
+    "compile:all": "tsx scripts/compile-all.ts",
+    "validate": "tsx scripts/validate-all.ts",
+    "validate:vendors": "tsx scripts/validate-vendors.ts",
+    "validate:affiliates": "tsx scripts/validate-affiliates.ts",
+    "validate:all": "tsx scripts/validate-all.ts",
+    "prebuild": "tsx scripts/smart-build.ts",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
-    "validate:data": "tsx scripts/validate-data.ts",
-    "validate:affiliates": "tsx scripts/validate-affiliates.ts"
+    "rebuild": "tsx scripts/force-rebuild.ts"
   },
   "dependencies": {
     "next": "latest",

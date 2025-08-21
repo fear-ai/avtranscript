@@ -3,16 +3,18 @@
 ## **Current State**
 
 ### **COMPLETED**
-- **Data Pipeline**: CSV → JSON → TypeScript conversion
-- **Data Models**: vendors + affiliates data
-- **Build System**: Automated pipeline with `npm run prebuild`
+- **Data Pipeline**: CSV → JSON → TypeScript conversion with smart caching
+- **Data Models**: vendors + affiliates data with validation
+- **Build System**: Automated pipeline with `npm run prebuild` and dependency management
+- **Command Structure**: Consistent naming with default commands (`convert`, `compile`, `validate`)
 - **Next.js App**: Building and running
 
 
 ### **Architecture**
-- **Pattern**: Data-driven, build-time compilation
-- **Storage**: CSV files → static TypeScript
+- **Pattern**: Data-driven, build-time compilation with smart caching
+- **Storage**: CSV files → JSON → static TypeScript
 - **Performance**: Build-time processing, instant runtime loading
+- **Command Design**: Default commands for normal operations, individual commands for debugging
 
 ---
 
@@ -32,6 +34,15 @@
 - **State Management**: React Context vs. Zustand vs. Redux?
 - **Styling**: Tailwind CSS sufficient or need component library?
 - **Testing**: Unit tests vs. integration tests priority?
+
+### **Build System & Caching**
+- **Cache Coherency**: How to ensure reliable file change detection across platforms?
+  - **Current**: Timestamp + hash + size checking with smart caching
+  - **Options**: Content hash-based, hybrid timestamp+hash, incremental processing
+  - **Challenges**: Cross-platform compatibility, performance vs. reliability trade-offs
+  - **Status**: Implemented and documented in Commands.md, working well
+- **Dependency Resolution**: Hard-coded processing order (vendors → affiliates → compile)
+- **File Watching**: Build-time checking (current), real-time monitoring (future consideration)
 
 ## **Market Segment Strategy**
 
@@ -83,6 +94,24 @@ Platform has evolved from focused target (amateur/professional content creators 
 5. **Validation**: Test approach with representative users from each segment
 
 
+## **Current Command Structure**
+
+### **Default Commands (Recommended)**
+- **`npm run convert`** - Process all CSV data (vendors + affiliates) with automatic dependency management
+- **`npm run compile`** - Compile JSON data to TypeScript after processing
+- **`npm run validate`** - Validate all data integrity and consistency
+
+### **Individual Commands (Debugging)**
+- **`npm run convert:vendors`** - Process vendor CSV only for debugging
+- **`npm run convert:affiliates`** - Process affiliate CSV only for debugging
+- **`npm run validate:vendors`** - Validate vendor data only for debugging
+- **`npm run validate:affiliates`** - Validate affiliate data only for debugging
+
+### **Build System Commands**
+- **`npm run prebuild`** - Smart data processing before build
+- **`npm run build`** - Production build with automatic data handling
+- **`npm run rebuild`** - Force rebuild everything for troubleshooting
+
 ## **Next Steps**
 
 ### **Core UI Components**
@@ -104,6 +133,17 @@ Platform has evolved from focused target (amateur/professional content creators 
 4. **Routing**: Set up vendor detail page routes
 
 
-**Version**: 0.1  
-**Date**: August 2025
+**Version**: 1.0  
+**Date**: August 2025  
 **Copyright**: 2025 Transcript Developers
+
+---
+
+## **Recent Improvements**
+
+### **Documentation & Command Structure**
+- **Commands.md**: Completely rewritten for clarity, consistency, and reduced redundancy
+- **Command Naming**: Consistent script file names (`convert-vendors.ts`, `compile-all.ts`, etc.)
+- **Default Commands**: `convert`, `compile`, `validate` work as defaults for all data
+- **Smart Caching**: Implemented and working with timestamp + hash + size checking
+- **Dependency Management**: Automatic processing order enforcement (vendors → affiliates → compile)

@@ -21,14 +21,28 @@ npm run dev
 npm run dev          # Start development server (http://localhost:3000)
 npm run build        # Build production app
 npm run start        # Start production server
-npm run lint         # Run ESLint code quality checks
 npm run type-check   # TypeScript type checking
 ```
 
-### Data Processing
+### Data Processing (Recommended)
 ```bash
-npm run prebuild     # Process CSV data and regenerate TypeScript types
-npm run validate     # Validate data integrity and schema compliance
+npm run convert      # Process all CSV data (vendors + affiliates)
+npm run compile      # Compile JSON data to TypeScript
+npm run validate     # Validate all data integrity
+```
+
+### Data Processing (Individual)
+```bash
+npm run convert:vendors     # Process vendor CSV only (debugging)
+npm run convert:affiliates  # Process affiliate CSV only (debugging)
+npm run validate:vendors    # Validate vendor data only (debugging)
+npm run validate:affiliates # Validate affiliate data only (debugging)
+```
+
+### Build System
+```bash
+npm run prebuild    # Smart data processing before build
+npm run rebuild     # Force rebuild everything (troubleshooting)
 ```
 
 ### Testing & Validation
@@ -52,8 +66,8 @@ npm run test:coverage # Generate coverage report
 npm run dev
 
 # Test main site endpoints
-curl -s http://localhost:3000/site | grep -o "Professional Transcription Services\|19.*Services\|Complexity\|Compare Services"
-curl -s http://localhost:3000/site | grep -o "16.*Services with API Integration\|5.*Real-time Processing Available\|86.*Average Data Confidence"
+curl -s http://localhost:3000/site | grep -o "Professional Transcription Services\|25.*Services\|Complexity\|Compare Services"
+curl -s http://localhost:3000/site | grep -o "Services with API Integration\|Real-time Processing Available\|Data Confidence"
 ```
 
 ### 2. Complexity Level System Testing
@@ -80,10 +94,11 @@ curl -s http://localhost:3000/site | grep -o "Rev\|Descript\|Sonix\|Trint\|Otter
 ## 🔧 Development Operations
 
 ### Adding New Vendors
-1. Update `lib/data/vendors.ts` with new vendor data
-2. Ensure vendor follows the `Vendor` interface schema
-3. Run `npm run dev` to test changes
-4. Verify vendor appears in site with correct complexity level
+1. Update `data/vendors.csv` with new vendor data
+2. Run `npm run convert` to process CSV data
+3. Run `npm run validate` to ensure data integrity
+4. Run `npm run dev` to test changes
+5. Verify vendor appears in site with correct complexity level
 
 ### Modifying Complexity Levels
 1. Edit `utils/complexity/config.ts` for level definitions
@@ -107,6 +122,10 @@ ls -la components/vendor/ providers/ hooks/ types/ utils/
 
 # Check for build errors
 npm run build 2>&1 | grep -i error
+
+# Check data processing
+npm run validate  # Validate data integrity
+npm run type-check  # Check TypeScript errors
 ```
 
 ## 📁 Key Directories
@@ -146,6 +165,10 @@ npm run dev
 ls -la lib/data/
 # Check for TypeScript errors
 npm run type-check
+# Validate data integrity
+npm run validate
+# Reprocess data if needed
+npm run convert
 ```
 
 ## 📊 Performance Monitoring
@@ -179,8 +202,18 @@ npm run start
 
 ---
 
-**Version**: 0.1  
-**Date**: August 2025
+**Version**: 1.0  
+**Date**: August 2025  
 **Copyright**: 2025 Transcript Developers
+
+---
+
+## **Recent Improvements**
+
+### **Command Structure & Data Pipeline**
+- **Default Commands**: `convert`, `compile`, `validate` for normal operations
+- **Smart Caching**: Automatic data processing only when CSV files change
+- **Dependency Management**: Automatic processing order (vendors → affiliates → compile)
+- **Consistent Naming**: Script files follow `{action}-{target}.ts` pattern
 
 ~  
