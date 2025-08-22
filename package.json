@@ -16,7 +16,13 @@
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
-    "rebuild": "tsx scripts/force-rebuild.ts"
+    "rebuild": "tsx scripts/force-rebuild.ts",
+    "test:comprehensive": "tsx scripts/test-runner.ts",
+    "logs:view": "tsx scripts/utils/log-viewer.ts",
+    "logs:stats": "tsx scripts/utils/log-viewer.ts stats",
+    "logs:list": "tsx scripts/utils/log-viewer.ts list",
+    "logs:summary": "tsx scripts/utils/log-viewer.ts summary",
+    "logs:search": "tsx scripts/utils/log-viewer.ts search"
   },
   "dependencies": {
     "next": "latest",

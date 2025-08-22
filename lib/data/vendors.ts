@@ -1,5 +1,5 @@
 // Auto-generated file - do not edit manually
-// Generated on: 2025-08-21T21:53:09.608Z
+// Generated on: 2025-08-21T23:56:27.925Z
 // Total vendors: 25
 
 import { Vendor } from '../types/vendor'
@@ -44,8 +44,8 @@ export const vendors: Vendor[] = [
         "hours": 0
       },
       "payPerUse": {
-        "aiPerMinute": 0,
-        "humanPerMinute": 0,
+        "aiPerMinute": 0.25,
+        "humanPerMinute": 1.5,
         "perHour": 0
       }
     },
@@ -87,6 +87,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "High-accuracy transcription",
+      "Professional use",
+      "Multiple languages"
+    ],
+    "bestFor": [
+      "High-accuracy transcription",
+      "Professional use",
+      "Multiple languages"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -168,7 +178,7 @@ export const vendors: Vendor[] = [
       "model": "subscription",
       "plans": [],
       "freeTier": {
-        "minutes": 0,
+        "minutes": 300,
         "hours": 0
       },
       "payPerUse": {
@@ -215,6 +225,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": true
     },
+    "useCases": [
+      "Meeting transcription",
+      "Real-time collaboration",
+      "Speaker identification"
+    ],
+    "bestFor": [
+      "Meeting transcription",
+      "Real-time collaboration",
+      "Speaker identification"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -302,7 +322,7 @@ export const vendors: Vendor[] = [
       "payPerUse": {
         "aiPerMinute": 0,
         "humanPerMinute": 0,
-        "perHour": 0
+        "perHour": 10
       }
     },
     "capabilities": {
@@ -343,6 +363,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Multilingual transcription",
+      "Advanced editing",
+      "API integration"
+    ],
+    "bestFor": [
+      "Multilingual transcription",
+      "Advanced editing",
+      "API integration"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -471,6 +501,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Collaborative editing",
+      "Media professionals",
+      "Agencies"
+    ],
+    "bestFor": [
+      "Collaborative editing",
+      "Media professionals",
+      "Agencies"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -554,8 +594,8 @@ export const vendors: Vendor[] = [
       "model": "subscription",
       "plans": [],
       "freeTier": {
-        "minutes": 0,
-        "hours": 0
+        "minutes": 60,
+        "hours": 1
       },
       "payPerUse": {
         "aiPerMinute": 0,
@@ -601,6 +641,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Content creation",
+      "Video editing",
+      "Podcast production"
+    ],
+    "bestFor": [
+      "Content creation",
+      "Video editing",
+      "Podcast production"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -731,6 +781,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": true
     },
+    "useCases": [
+      "Meeting transcription",
+      "AI insights",
+      "Action items"
+    ],
+    "bestFor": [
+      "Meeting transcription",
+      "AI insights",
+      "Action items"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -815,7 +875,7 @@ export const vendors: Vendor[] = [
         "hours": 0
       },
       "payPerUse": {
-        "aiPerMinute": 0,
+        "aiPerMinute": 0.25,
         "humanPerMinute": 0,
         "perHour": 0
       }
@@ -858,6 +918,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Fast transcription",
+      "Basic needs",
+      "Cost-effective"
+    ],
+    "bestFor": [
+      "Fast transcription",
+      "Basic needs",
+      "Cost-effective"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -985,6 +1055,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Multilingual transcription",
+      "Subtitling",
+      "Media production"
+    ],
+    "bestFor": [
+      "Multilingual transcription",
+      "Subtitling",
+      "Media production"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1114,6 +1194,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "AI transcription",
+      "Content analysis",
+      "Research"
+    ],
+    "bestFor": [
+      "AI transcription",
+      "Content analysis",
+      "Research"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1243,6 +1333,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Media production",
+      "European market",
+      "Competitive pricing"
+    ],
+    "bestFor": [
+      "Media production",
+      "European market",
+      "Competitive pricing"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1371,6 +1471,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": true
     },
+    "useCases": [
+      "Meeting transcription",
+      "Action items",
+      "Enterprise"
+    ],
+    "bestFor": [
+      "Meeting transcription",
+      "Action items",
+      "Enterprise"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1498,6 +1608,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Fast transcription",
+      "Journalists",
+      "Creators"
+    ],
+    "bestFor": [
+      "Fast transcription",
+      "Journalists",
+      "Creators"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1627,6 +1747,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Free transcription",
+      "Android users",
+      "Basic needs"
+    ],
+    "bestFor": [
+      "Free transcription",
+      "Android users",
+      "Basic needs"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1756,6 +1886,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Fast transcription",
+      "Web-based",
+      "Basic needs"
+    ],
+    "bestFor": [
+      "Fast transcription",
+      "Web-based",
+      "Basic needs"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -1884,6 +2024,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Video editing",
+      "AI transcription",
+      "Media production"
+    ],
+    "bestFor": [
+      "Video editing",
+      "AI transcription",
+      "Media production"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2012,6 +2162,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Legal transcription",
+      "Specialized",
+      "Professional"
+    ],
+    "bestFor": [
+      "Legal transcription",
+      "Specialized",
+      "Professional"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2140,6 +2300,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Multilingual transcription",
+      "100+ languages",
+      "Basic needs"
+    ],
+    "bestFor": [
+      "Multilingual transcription",
+      "100+ languages",
+      "Basic needs"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2268,6 +2438,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Human transcription",
+      "AI assistance",
+      "Professional"
+    ],
+    "bestFor": [
+      "Human transcription",
+      "AI assistance",
+      "Professional"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2396,6 +2576,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Enterprise transcription",
+      "Human verification",
+      "High accuracy"
+    ],
+    "bestFor": [
+      "Enterprise transcription",
+      "Human verification",
+      "High accuracy"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2523,6 +2713,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Budget-friendly",
+      "Basic transcription",
+      "Cost-effective"
+    ],
+    "bestFor": [
+      "Budget-friendly",
+      "Basic transcription",
+      "Cost-effective"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2651,6 +2851,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Advanced features",
+      "AI transcription",
+      "Professional"
+    ],
+    "bestFor": [
+      "Advanced features",
+      "AI transcription",
+      "Professional"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2779,6 +2989,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": false,
       "liveStreaming": false
     },
+    "useCases": [
+      "Knowledge management",
+      "Web highlighting",
+      "Annotation"
+    ],
+    "bestFor": [
+      "Knowledge management",
+      "Web highlighting",
+      "Annotation"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -2908,6 +3128,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "User research",
+      "Interview transcription",
+      "Analysis"
+    ],
+    "bestFor": [
+      "User research",
+      "Interview transcription",
+      "Analysis"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -3037,6 +3267,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": false
     },
+    "useCases": [
+      "Communication platform",
+      "Transcription",
+      "Enterprise"
+    ],
+    "bestFor": [
+      "Communication platform",
+      "Transcription",
+      "Enterprise"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",
@@ -3165,6 +3405,16 @@ export const vendors: Vendor[] = [
       "batchProcessing": true,
       "liveStreaming": true
     },
+    "useCases": [
+      "Meeting intelligence",
+      "AI insights",
+      "Transcription"
+    ],
+    "bestFor": [
+      "Meeting intelligence",
+      "AI insights",
+      "Transcription"
+    ],
     "integrations": {
       "platforms": [
         "Zoom",

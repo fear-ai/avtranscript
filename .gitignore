@@ -2,16 +2,16 @@
 
 # dependencies
 /node_modules
+.build-cache*
 /.pnp
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
 
 # testing
 /coverage
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # next.js
 /.next/
@@ -20,12 +20,15 @@
 # production
 /build
 
-# misc
-.DS_Store
-*.pem
-
 # debug
 npm-debug.log*
+
+#yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 yarn-debug.log*
 yarn-error.log*
 
@@ -35,6 +38,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# misc
+.DS_Store
+*.pem
+

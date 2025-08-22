@@ -25,45 +25,104 @@ async function convertVendorsToJson() {
     // Process vendor data with type conversion
     const vendors = parsedData.records.map(vendor => {
       const processed: Record<string, any> = {
+        // Required fields - CSV has these
         id: vendor.id,
         name: vendor.name,
-        description: vendor.description,
+        slug: vendor.slug,                    // ← ADDED: Required by validator
         website: vendor.website,
-        category: vendor.category,
-        targetMarket: vendor.targetMarket,
-        pricing: {
-          freeTier: {
-            minutes: parseInt(vendor.pricing?.freeTier?.minutes) || 0,
-            hours: parseInt(vendor.pricing?.freeTier?.hours) || 0
-          },
-          paidTier: {
-            aiPerMinute: parseFloat(vendor.pricing?.paidTier?.aiPerMinute) || 0,
-            humanPerMinute: parseFloat(vendor.pricing?.paidTier?.humanPerMinute) || 0,
-            perHour: parseFloat(vendor.pricing?.paidTier?.perHour) || 0
-          }
-        },
-        features: {
-          realTimeProcessing: vendor.features?.realTimeProcessing === 'true',
-          speakerIdentification: vendor.features?.speakerIdentification === 'true',
-          languageSupport: vendor.features?.languageSupport?.split(',').map((lang: string) => lang.trim()) || [],
-          exportFormats: vendor.features?.exportFormats?.split(',').map((format: string) => format.trim()) || []
-        },
-        vendorScore: {
-          productMaturity: parseInt(vendor.vendorScore?.productMaturity) || 0,
-          companyStability: parseInt(vendor.vendorScore?.companyStability) || 0,
-          marketAdoption: parseInt(vendor.vendorScore?.marketAdoption) || 0,
-          total: parseInt(vendor.vendorScore?.total) || 0
-        },
-        productScore: {
-          features: parseInt(vendor.productScore?.features) || 0,
-          usability: parseInt(vendor.productScore?.usability) || 0,
-          accuracy: parseInt(vendor.productScore?.accuracy) || 0,
-          total: parseInt(vendor.productScore?.total) || 0
-        },
-        overallScore: parseInt(vendor.overallScore) || 0,
+        description: vendor.description,
+        status: vendor.status,                // ← ADDED: Required by validator
+        lastVerified: vendor.lastVerified,    // ← ADDED: Required by validator
+        createdAt: vendor.createdAt,          // ← ADDED: Required by validator
+        updatedAt: vendor.updatedAt,          // ← ADDED: Required by validator
+        source: vendor.source,                // ← ADDED: Required by validator
         confidence: parseFloat(vendor.confidence) || 0,
         tier: vendor.tier,
-        lastUpdated: vendor.lastUpdated
+        category: vendor.category,
+        priority: parseInt(vendor.priority) || 50, // ← ADDED: Required by validator
+        
+        // Market position (optional)
+        marketShare: vendor.marketShare,
+        targetMarket: vendor.targetMarket,
+        industryFocus: vendor.industryFocus,
+        
+        // Scores - fix mapping from flat CSV to nested structure
+        vendorScore: {
+          productMaturity: parseInt(vendor.vendorScore_productMaturity) || 0,
+          companyStability: parseInt(vendor.vendorScore_companyStability) || 0,
+          marketAdoption: parseInt(vendor.vendorScore_marketAdoption) || 0,
+          total: parseInt(vendor.vendorScore_total) || 0
+        },
+        productScore: {
+          features: parseInt(vendor.productScore_features) || 0,
+          usability: parseInt(vendor.productScore_usability) || 0,
+          accuracy: parseInt(vendor.productScore_accuracy) || 0,
+          total: parseInt(vendor.productScore_total) || 0
+        },
+        overallScore: parseInt(vendor.overallScore) || 0,
+        
+        // Pricing - fix structure and add missing fields
+        pricing: {
+          model: vendor.pricing_model,
+          plans: [], // ← ADDED: Empty array as default (now optional in validator)
+          freeTier: {
+            minutes: parseInt(vendor.pricing_freeTier_minutes) || 0,
+            hours: parseInt(vendor.pricing_freeTier_hours) || 0
+          },
+          payPerUse: {
+            aiPerMinute: parseFloat(vendor.pricing_payPerUse_aiPerMinute) || 0,
+            humanPerMinute: parseFloat(vendor.pricing_payPerUse_humanPerMinute) || 0,
+            perHour: parseFloat(vendor.pricing_payPerUse_perHour) || 0
+          }
+        },
+        
+        // Capabilities - fix mapping from flat CSV
+        capabilities: {
+          languages: vendor.capabilities_languages?.split(',').map((lang: string) => lang.trim()) || [],
+          supportedFormats: vendor.capabilities_supportedFormats?.split(',').map((format: string) => format.trim()) || [],
+          realTimeProcessing: vendor.capabilities_realTimeProcessing === 'true',
+          speakerIdentification: vendor.capabilities_speakerIdentification === 'true',
+          aiSummaries: vendor.capabilities_aiSummaries === 'true',
+          teamCollaboration: vendor.capabilities_teamCollaboration === 'true',
+          apiIntegration: vendor.capabilities_apiIntegration === 'true',
+          sdkAvailable: vendor.capabilities_sdkAvailable === 'true',
+          webhookSupport: vendor.capabilities_webhookSupport === 'true',
+          customVocabulary: vendor.capabilities_customVocabulary === 'true',
+          batchProcessing: vendor.capabilities_batchProcessing === 'true',
+          liveStreaming: vendor.capabilities_liveStreaming === 'true'
+        },
+        
+        // Use cases and targeting
+        useCases: vendor.useCases?.split(',').map((useCase: string) => useCase.trim()) || [],
+        bestFor: vendor.bestFor?.split(',').map((best: string) => best.trim()) || [],
+        
+        // Integrations - fix mapping from flat CSV
+        integrations: {
+          platforms: vendor.integrations_platforms?.split(',').map((platform: string) => platform.trim()) || [],
+          cms: vendor.integrations_cms?.split(',').map((cms: string) => cms.trim()) || [],
+          socialMedia: vendor.integrations_socialMedia?.split(',').map((social: string) => social.trim()) || [],
+          analytics: vendor.integrations_analytics?.split(',').map((analytic: string) => analytic.trim()) || []
+        },
+        
+        // Market position - fix mapping from flat CSV
+        marketPosition: {
+          tier: vendor.marketPosition_tier,
+          priceRange: vendor.marketPosition_priceRange,
+          targetAudience: vendor.marketPosition_targetAudience?.split(',').map((audience: string) => audience.trim()) || [],
+          competitiveAdvantage: vendor.marketPosition_competitiveAdvantage?.split(',').map((advantage: string) => advantage.trim()) || [],
+          marketSegment: vendor.marketPosition_marketSegment
+        },
+        
+        // Partnerships - fix mapping from flat CSV
+        partnerships: {
+          hasAffiliateProgram: vendor.partnerships_hasAffiliateProgram === 'true',
+          affiliatePlatform: vendor.partnerships_affiliatePlatform,
+          commissionRange: vendor.partnerships_commissionRange,
+          referralRewards: vendor.partnerships_referralRewards,
+          partnerType: vendor.partnerships_partnerType,
+          applicationProcess: vendor.partnerships_applicationProcess,
+          notes: vendor.partnerships_notes
+        }
       }
 
       return processed

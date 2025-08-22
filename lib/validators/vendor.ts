@@ -1,21 +1,21 @@
 import { z } from 'zod'
 
-// Nested schema for vendor scoring
+// Nested schema for vendor scoring - relaxed to allow 0 scores
 const vendorScoreSchema = z.object({
-  productMaturity: z.number().min(1).max(5),
-  companyStability: z.number().min(1).max(5),
-  marketAdoption: z.number().min(1).max(5),
-  total: z.number().min(3).max(15)
+  productMaturity: z.number().min(0).max(5),    // Changed from min(1) to allow 0
+  companyStability: z.number().min(0).max(5),   // Changed from min(1) to allow 0
+  marketAdoption: z.number().min(0).max(5),     // Changed from min(1) to allow 0
+  total: z.number().min(0).max(15)              // Changed from min(3) to allow 0
 }).optional()
 
 const productScoreSchema = z.object({
-  features: z.number().min(1).max(5),
-  usability: z.number().min(1).max(5),
-  accuracy: z.number().min(1).max(5),
-  total: z.number().min(3).max(15)
+  features: z.number().min(0).max(5),           // Changed from min(1) to allow 0
+  usability: z.number().min(0).max(5),          // Changed from min(1) to allow 0
+  accuracy: z.number().min(0).max(5),           // Changed from min(1) to allow 0
+  total: z.number().min(0).max(15)              // Changed from min(3) to allow 0
 }).optional()
 
-// Nested schema for pricing
+// Nested schema for pricing - relaxed to make plans optional
 const pricingPlanSchema = z.object({
   name: z.string().min(1).max(100),
   price: z.string().min(1).max(50),
@@ -39,7 +39,7 @@ const payPerUseSchema = z.object({
 
 const pricingSchema = z.object({
   model: z.enum(['subscription', 'pay-per-use', 'hybrid', 'free', 'enterprise']),
-  plans: z.array(pricingPlanSchema),
+  plans: z.array(pricingPlanSchema).optional(),  // Changed from required to optional
   freeTier: freeTierSchema,
   payPerUse: payPerUseSchema
 }).optional()

@@ -25,17 +25,20 @@ async function convertAffiliatesToJson() {
     // Process affiliate data with type conversion
     const affiliates = parsedData.records.map(affiliate => {
       const processed: Record<string, any> = {
-        id: affiliate.id,
-        name: affiliate.name,
-        description: affiliate.description,
-        website: affiliate.website,
-        status: affiliate.status,
+        // Required fields - CSV has these
+        vendorId: affiliate.vendorId,                    // ← ADDED: Required by validator
         hasProgram: affiliate.hasProgram === 'true',
-        ftcCompliant: affiliate.ftcCompliant === 'true',
-        disclosureRequired: affiliate.disclosureRequired === 'true',
+        programName: affiliate.programName,
         commissionRate: parseFloat(affiliate.commissionRate) || 0,
+        commissionType: affiliate.commissionType,        // ← ADDED: Required by validator
         cookieDuration: parseInt(affiliate.cookieDuration) || 0,
         minimumPayout: parseFloat(affiliate.minimumPayout) || 0,
+        paymentSchedule: affiliate.paymentSchedule,      // ← ADDED: Required by validator
+        status: affiliate.status,
+        startDate: affiliate.startDate,
+        ftcCompliant: affiliate.ftcCompliant === 'true',
+        disclosureRequired: affiliate.disclosureRequired === 'true',
+        disclosureText: affiliate.disclosureText,
         baseCommission: parseFloat(affiliate.baseCommission) || 0,
         bonusCommission: parseFloat(affiliate.bonusCommission) || 0,
         totalClicks: parseInt(affiliate.totalClicks) || 0,
@@ -44,8 +47,9 @@ async function convertAffiliatesToJson() {
         totalRevenue: parseFloat(affiliate.totalRevenue) || 0,
         totalCommission: parseFloat(affiliate.totalCommission) || 0,
         pendingCommission: parseFloat(affiliate.pendingCommission) || 0,
+        lastUpdated: affiliate.lastUpdated,
         confidence: parseFloat(affiliate.confidence) || 0,
-        lastUpdated: affiliate.lastUpdated
+        source: affiliate.source                          // ← ADDED: Required by validator
       }
 
       return processed
