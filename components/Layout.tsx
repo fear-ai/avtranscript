@@ -50,7 +50,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               <h4 className="font-semibold text-white mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li><Link href="/" className="text-gray-300 hover:text-blue-400 transition-colors">Home</Link></li>
-                <li><Link href="/find" className="text-gray-300 hover:text-blue-400 transition-colors">Find Services</Link></li>
+                <li><Link href="/find" className="text-gray-300 hover:text-blue-400 transition-colors">Find</Link></li>
                 <li><Link href="/#learn" className="text-gray-300 hover:text-blue-400 transition-colors">Learn</Link></li>
               </ul>
             </div>

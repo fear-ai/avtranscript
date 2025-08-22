@@ -138,7 +138,7 @@ export const ProfessionalSearch: React.FC<ProfessionalSearchProps> = ({
     <div className={`bg-white rounded-lg shadow-sm border p-6 ${className}`}>
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">
-          Find Professional Transcription Services
+          Find Professional Transcription
         </h2>
         
         {/* Search input */}

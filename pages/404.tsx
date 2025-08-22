@@ -38,7 +38,7 @@ const Custom404: React.FC = () => {
                 href="/find" 
                 className="block p-3 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors"
               >
-                🔍 Find Services - Browse vendors
+                🔍 Find - Browse vendors
               </Link>
               <Link 
                 href="/#learn" 
@@ -61,7 +61,7 @@ const Custom404: React.FC = () => {
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
-              Search Services
+              Search
             </Link>
           </div>
 

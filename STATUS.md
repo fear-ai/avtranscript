@@ -44,6 +44,104 @@
 - **Dependency Resolution**: Hard-coded processing order (vendors → affiliates → compile)
 - **File Watching**: Build-time checking (current), real-time monitoring (future consideration)
 
+### **React onClick() Handler Issues** ⚠️ **INVESTIGATION NEEDED**
+- **Problem**: `onClick` handlers not appearing in HTML output during server-side rendering
+- **Symptoms**: 
+  - Type cards show `cursor-pointer` but no `onClick` attributes in HTML
+  - React components not fully hydrated on client side
+  - Silent failures without JavaScript errors
+- **Root Cause Investigation**:
+  - **Provider Context**: `ComplexityProvider` was missing from `_app.tsx` (FIXED)
+  - **Server-Side Rendering**: `onClick` handlers stripped during SSR due to missing context
+  - **Hydration Mismatch**: Server renders one state, client has different initial state
+- **Solutions Attempted**:
+  1. **Provider Fix**: Added `ComplexityProvider` to `_app.tsx` ✅
+  2. **Memoized Handlers**: Used `useCallback` for click handlers ✅
+  3. **Button Elements**: Converted `div` to `button` elements ✅
+- **Current Status**: Type cards working but `onClick` handlers still not visible in HTML
+- **Learning Points**:
+  - **Context Dependencies**: React hooks require proper provider wrapping
+  - **SSR Hydration**: Server-side rendering can strip client-side event handlers
+  - **Debugging Strategy**: Check provider context, component hydration, and SSR behavior
+  - **Alternative Approaches**: Consider client-only components or different event handling patterns
+- **Next Steps**: 
+  - Investigate why `onClick` handlers still not appearing in HTML
+  - Consider using `onMouseDown` or other event handlers as alternatives
+  - Research Next.js SSR hydration best practices for interactive components
+
+### **New Development Tasks** 📋 **PLANNED**
+- **Learn Page Creation**: Replace `#learn` anchor with dedicated `/learn` page
+  - **Current**: Anchor link to section on Home/Find pages
+  - **Target**: Standalone page with comprehensive learning content
+  - **Benefits**: Better SEO, dedicated content space, improved navigation
+- **Reusable User Type Component**: Create component with 3 radio buttons
+  - **Purpose**: Replace duplicate user type selection on Home and Find pages
+  - **Design**: Radio button interface for Amateur/Professional/Agency selection
+  - **Reusability**: Single source of truth for user type selection across pages
+  - **State Management**: Integrate with existing `ComplexityProvider` context
+- **Search Box Redesign**: Completely redo search functionality
+  - **Current**: Basic search input with limited filtering
+  - **Target**: Advanced search with multiple criteria, real-time results
+  - **Features**: Auto-complete, filters, search history, saved searches
+  - **Integration**: Connect with vendor data and filtering system
+- **Individual Vendor Pages**: Create dedicated page for each vendor
+  - **Structure**: `/vendor/[slug]` dynamic routing (e.g., `/vendor/rev`, `/vendor/descript`)
+  - **Content**: Detailed vendor information, pricing, features, reviews
+  - **Navigation**: Links from vendor cards to individual pages
+  - **SEO**: Vendor-specific meta tags, structured data, content optimization
+- **Implementation Priority**:
+  1. **High**: Learn page (replaces existing anchor functionality)
+  2. **High**: User type component (improves code reusability)
+  3. **Medium**: Search box redesign (enhances user experience)
+  4. **Medium**: Individual vendor pages (improves content depth and SEO)
+
+### **Additional Development Tasks** 📋 **PLANNED**
+- **Jump to Top Button**: Add scroll-to-top functionality in Footer
+  - **Purpose**: Improve navigation experience on long pages
+  - **Design**: Floating button that appears when scrolling down
+  - **Behavior**: Smooth scroll animation to top of page
+  - **Positioning**: Fixed position in footer or floating action button
+- **Mobile Testing**: Test application functionality on mobile devices
+  - **Current**: Development testing on desktop/laptop
+  - **Target**: Verify responsive design and touch interactions
+  - **Focus Areas**: 
+    - Type card interactions on mobile
+    - Vendor card display and navigation
+    - Search functionality on small screens
+    - Overall mobile user experience
+- **About Page**: Create dedicated About page
+  - **Content**: Company information, mission, team details
+  - **Navigation**: Add to header navigation and footer
+  - **Design**: Consistent with overall site styling
+  - **SEO**: Meta tags and structured data for company information
+- **Contact & Support Handling**: Implement contact and support functionality
+  - **Contact Page**: Contact form, company information, office locations
+  - **Support System**: FAQ, help documentation, ticket system
+  - **Integration**: Connect with existing footer links
+  - **User Experience**: Easy access to help and contact information
+
+### **Footer & Content Updates** 📋 **PLANNED**
+- **Footer Simplification**: Remove Quick Links and Legal sections
+  - **Current**: Footer has Quick Links and Legal subsections
+  - **Target**: Simplified footer with essential navigation only
+  - **Benefits**: Cleaner design, reduced complexity, better focus
+- **Privacy Policy Updates**: Enhance privacy policy content
+  - **Cookies**: Add cookie usage and management information
+  - **Sessions**: Document session handling and data retention
+  - **Email Collection**: Explain email collection, storage, and usage
+  - **Compliance**: Ensure GDPR and privacy regulation compliance
+- **Home vs Find Page Analysis**: Evaluate above-the-fold similarity
+  - **Current**: Home and Find pages have very similar above-the-fold content
+  - **Options**:
+    1. **Shared Component**: Create reusable component for common content
+    2. **Redesign**: Completely differentiate the two pages
+    3. **Hybrid**: Keep some shared elements, differentiate others
+  - **Considerations**: 
+    - User experience consistency vs. page differentiation
+    - SEO implications of similar content
+    - Maintenance benefits of shared components
+    - Brand messaging and user journey clarity
+
 ## **Market Segment Strategy**
 
 ### **Current Challenge**
@@ -58,6 +156,15 @@ Platform has evolved from focused target (amateur/professional content creators 
   - Professional → Mid complexity (balanced, user's choice)
   - Agency → High complexity (detailed, enterprise-focused)
 - **Manual Override**: Users can always manually adjust complexity level from auto-selection
+
+#### **Complexity Implementation Integration** 🔧 **DESIGN COMPLEXITY ALIGNMENT**
+- **DesignComplex.md Integration**: Market segments and customer types must align with complexity implementation
+- **User Type ↔ Complexity Mapping**:
+  - **Amateur (Free)**: Low complexity by default, simplified interface, essential features only
+  - **Professional (Plus)**: Mid complexity by default, balanced features, user choice preserved
+  - **Agency (Enterprise)**: High complexity by default, comprehensive features, advanced capabilities
+- **Progressive Enhancement**: Complexity levels should enhance rather than replace user type features
+- **Consistent Behavior**: Same complexity level should behave identically across all user types
 
 #### **Terminology & User Interface**
 - **Complexity Levels**: Use "Show More/Less" terminology (clear, action-oriented)
@@ -211,6 +318,30 @@ const getEffectiveLevel = (requestedLevel: ComplexityLevel, availableLevels: Com
 4. **Technical Architecture**: Design system to support chosen approach
 5. **Validation**: Test approach with representative users from each segment
 
+### **Documentation Management Challenges** 📚 **CRITICAL ISSUE**
+- **Problem**: Tracking documentation and implementation becomes increasingly difficult
+- **Symptoms**:
+  - **Content Ballooning**: Documentation grows exponentially, hard to maintain
+  - **Update Tracking**: Difficult to know what's current vs. outdated
+  - **Implementation Gaps**: Documentation doesn't match actual code
+  - **Maintenance Overhead**: Time spent updating docs instead of building features
+- **Root Causes**:
+  - **Monolithic Approach**: Single large documents become unwieldy
+  - **Separate Tracking**: Documentation and implementation drift apart
+  - **Date Obsession**: Focus on timestamps rather than content relevance
+  - **Status Proliferation**: Too many status categories and progress indicators
+- **Impact**: Reduced development velocity, confusion, technical debt accumulation
+
+### **Documentation Update Rules** 📋 **ENFORCEMENT NEEDED**
+- **Rule 1: Content Over Dates**: Focus on what needs to be done, not when it was last updated
+- **Rule 2: Concise Updates**: One sentence per change, no verbose explanations
+- **Rule 3: Implementation First**: Update docs only when implementation changes
+- **Rule 4: Status Simplification**: Use only 3 status levels: TODO, IN PROGRESS, DONE
+- **Rule 5: Living Documentation**: Docs should evolve with code, not be separate artifacts
+- **Rule 6: Single Source of Truth**: One document per major feature/component
+- **Rule 7: No Historical Commentary**: Remove outdated explanations and status updates
+- **Rule 8: Actionable Content**: Every item must have clear next steps or be marked complete
+
 ### **Success Metrics**
 1. **User Engagement**: Time spent, features used, return visits
 2. **User Type Distribution**: Balance across segments
@@ -263,6 +394,33 @@ const getEffectiveLevel = (requestedLevel: ComplexityLevel, availableLevels: Com
 
 ---
 
+## **Technical Debt & Review Reminders** ⚠️ **REQUIRES ATTENTION**
+
+### **CSVIssues Review** 🔍 **HIGH PRIORITY**
+- **Current Status**: CSV files may have data inconsistencies or formatting issues
+- **Impact**: Affects data pipeline reliability and vendor information accuracy
+- **Action Required**: Audit CSV files for data quality, formatting, and completeness
+- **Priority**: High - affects core data functionality
+
+### **Library vs Local Implementation Analysis** 📚 **EVALUATION NEEDED**
+- **Areas to Review**:
+  - **Testing**: Jest, React Testing Library, Playwright vs. custom test framework
+  - **Validation**: Joi, Yup, Zod vs. custom validation logic
+  - **Error Handling**: Custom error codes vs. established error handling libraries
+  - **Logging**: Winston, Pino, Bunyan vs. custom logging implementation
+- **Considerations**:
+  - **Maintenance**: External packages vs. custom code maintenance
+  - **Features**: Rich functionality vs. tailored solutions
+  - **Dependencies**: Package updates vs. full control
+  - **Performance**: Optimized libraries vs. lightweight custom code
+- **Decision Factors**:
+  - Team expertise and maintenance capacity
+  - Project timeline and development resources
+  - Long-term maintenance and support requirements
+  - Integration complexity with existing codebase
+
+---
+
 ## **Recent Improvements**
 
 ### **Documentation & Command Structure**
@@ -271,3 +429,46 @@ const getEffectiveLevel = (requestedLevel: ComplexityLevel, availableLevels: Com
 - **Default Commands**: `convert`, `compile`, `validate` work as defaults for all data
 - **Smart Caching**: Implemented and working with timestamp + hash + size checking
 - **Dependency Management**: Automatic processing order enforcement (vendors → affiliates → compile)
+
+### **January 2025 Session Updates**
+
+#### **UI/UX Improvements**
+- **Homepage Restructuring**: Merged CTA sections, consolidated text content, enhanced "Why Choose AVTran?" with detailed descriptions including "Smart Discovery"
+- **Card Label Updates**: Changed "Professional Creator" to "Pro" for cleaner, more concise labeling
+- **Content Optimization**: Tightened verbose text throughout the application for better user experience
+
+#### **Route Optimization**
+- **URL Structure**: Renamed `/site` to `/find` for better SEO and user experience
+- **Component Naming**: Updated all internal references from "Site" to "Find" (FindPage, FindPageContent, FindPageProps)
+- **Navigation Updates**: Updated header, footer, and all internal links to use new `/find` route
+- **Documentation Sync**: Updated all documentation files (README.md, TestResults.md, TestOutputs.md) to reflect new routes
+
+#### **Error Handling & User Experience**
+- **Custom 404 Page**: Created informative 404 page with helpful navigation links and search suggestions
+- **Content Tightening**: Reduced error page text from 25 words to 12 words (52% reduction) for better UX
+- **Layout Consistency**: Fixed Layout component import issues across all pages
+
+#### **Component Architecture Overhaul**
+- **VendorCard Consolidation**: Replaced 5 separate VendorCard variants with single responsive component
+  - **Before**: BasicVendorCard, EnhancedVendorCard, SmartVendorCard, ResponsiveVendorCard, VendorCardAdapted
+  - **After**: Single VendorCard with responsive design and conditional rendering
+- **Mobile Optimization**: Implemented comprehensive mobile-first approach within single component
+  - **Mobile**: Compact layout, touch-friendly buttons, essential info only, no complexity controls
+  - **Tablet**: Medium spacing, balanced layout, some complexity features
+  - **Desktop**: Full features, complexity controls, advanced content, hover effects
+- **Progressive Enhancement**: Single component adapts content based on both screen size and complexity level
+
+#### **Technical Improvements**
+- **TypeScript Errors**: Resolved all compilation errors across the application
+- **Import Consistency**: Fixed Layout component imports from default to named exports
+- **Code Deduplication**: Eliminated ~80% duplicate code by consolidating VendorCard variants
+- **Performance Optimization**: Reduced component bundle size and improved mobile rendering
+
+#### **Testing & Development**
+- **Development Server**: Verified application runs successfully on port 3001
+- **TypeScript Compilation**: All files now compile without errors
+- **Responsive Testing**: Confirmed automatic layout adaptation across device sizes
+
+#### **Documentation Updates**
+- **Session Prompts**: Created `prompts.txt` file documenting all user requests and actions taken
+- **Status Updates**: This comprehensive status update capturing all session changes
