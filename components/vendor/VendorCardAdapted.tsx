@@ -19,14 +19,44 @@ export const VendorCardAdapted: React.FC<VendorCardAdaptedProps> = ({
 
   // Get pricing display
   const getPricing = () => {
-    if (vendor.pricing?.payPerUse?.aiPerMinute) {
+    if (vendor.pricing?.payPerUse?.aiPerMinute && vendor.pricing.payPerUse.aiPerMinute > 0) {
       return `$${vendor.pricing.payPerUse.aiPerMinute}/min`;
     }
     if (vendor.pricing?.plans && vendor.pricing.plans.length > 0) {
       const plan = vendor.pricing.plans[0];
       return plan.price ? `$${plan.price}/${plan.billingCycle}` : 'Contact Sales';
     }
-    return 'Pricing varies';
+    if (vendor.pricing?.freeTier?.minutes && vendor.pricing.freeTier.minutes > 0) {
+      return `Free + ${vendor.pricing.freeTier.minutes}min`;
+    }
+    if (vendor.pricing?.freeTier?.hours && vendor.pricing.freeTier.hours > 0) {
+      return `Free + ${vendor.pricing.freeTier.hours}h`;
+    }
+    // Show tier information instead of "Price Varies"
+    if (vendor.tier) {
+      const tierMap: Record<string, string> = {
+        'free': 'Free',
+        'basic': 'Basic Tier',
+        'premium': 'Premium Tier',
+        'enterprise': 'Enterprise Tier'
+      };
+      return tierMap[vendor.tier] || `${vendor.tier.charAt(0).toUpperCase() + vendor.tier.slice(1)} Tier`;
+    }
+    return 'Contact Sales';
+  };
+
+  // Get pricing subtitle
+  const getPricingSubtitle = () => {
+    if (vendor.pricing?.freeTier?.minutes && vendor.pricing.freeTier.minutes > 0) {
+      return `${vendor.pricing.freeTier.minutes} free minutes`;
+    }
+    if (vendor.pricing?.freeTier?.hours && vendor.pricing.freeTier.hours > 0) {
+      return `${vendor.pricing.freeTier.hours} free hours`;
+    }
+    if (vendor.pricing?.plans && vendor.pricing.plans.length > 0) {
+      return `[${vendor.pricing.plans.length}] Plans available`;
+    }
+    return null;
   };
 
   // Get status badge color
@@ -84,7 +114,7 @@ export const VendorCardAdapted: React.FC<VendorCardAdaptedProps> = ({
             {config.displayName}
           </span>
           
-          {canDowngrade && (
+          {canDowngrade && userLevel !== 'low' && (
             <button 
               onClick={downgrade}
               className="text-xs text-gray-400 hover:text-gray-600"
@@ -94,7 +124,7 @@ export const VendorCardAdapted: React.FC<VendorCardAdaptedProps> = ({
             </button>
           )}
           
-          {canUpgrade && (
+          {canUpgrade && userLevel !== 'high' && (
             <button 
               onClick={upgrade}
               className="text-xs text-gray-400 hover:text-gray-600"
@@ -185,9 +215,9 @@ export const VendorCardAdapted: React.FC<VendorCardAdaptedProps> = ({
         <div className="flex items-center justify-between">
           <div>
             <span className="text-2xl font-bold text-blue-600">{getPricing()}</span>
-            {vendor.pricing?.freeTier?.minutes && vendor.pricing.freeTier.minutes > 0 && (
+            {getPricingSubtitle() && (
               <p className="text-xs text-gray-500 mt-1">
-                {vendor.pricing.freeTier.minutes} free minutes
+                {getPricingSubtitle()}
               </p>
             )}
           </div>

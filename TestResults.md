@@ -20,7 +20,7 @@ The transcript platform has **exceeded its original Phase I scope** and now incl
 - **Professional Insights**: Analytics dashboard with metrics and statistics
 
 #### **Core Application**
-- **Next.js Site**: `/site` endpoint loads and displays vendor data
+- **Next.js Site**: `/find` endpoint loads and displays vendor data
 - **Responsive Design**: Adapts to different screen sizes
 - **Component Integration**: Search, filtering, and comparison work together
 

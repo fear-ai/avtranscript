@@ -49,7 +49,7 @@ npm run rebuild     # Force rebuild everything (troubleshooting)
 ```bash
 # Manual testing
 npm run dev          # Start server
-curl http://localhost:3000/site     # Test main site
+curl http://localhost:3000/find     # Test main site
 curl http://localhost:3000/complexity-demo  # Test complexity system
 
 # Automated testing (if configured)
@@ -66,8 +66,8 @@ npm run test:coverage # Generate coverage report
 npm run dev
 
 # Test main site endpoints
-curl -s http://localhost:3000/site | grep -o "Professional Transcription Services\|25.*Services\|Complexity\|Compare Services"
-curl -s http://localhost:3000/site | grep -o "Services with API Integration\|Real-time Processing Available\|Data Confidence"
+curl -s http://localhost:3000/find | grep -o "Professional Transcription Services\|25.*Services\|Complexity\|Compare Services"
+curl -s http://localhost:3000/find | grep -o "Services with API Integration\|Real-time Processing Available\|Data Confidence"
 ```
 
 ### 2. Complexity Level System Testing
@@ -82,13 +82,13 @@ curl -s http://localhost:3000/progressive-demo | grep -o "Basic\|Responsive\|Enh
 ### 3. Component Testing
 ```bash
 # Test individual components
-curl -s http://localhost:3000/site | grep -o "VendorCard\|ProfessionalSearch\|VendorComparison"
+curl -s http://localhost:3000/find | grep -o "VendorCard\|ProfessionalSearch\|VendorComparison"
 ```
 
 ### 4. Data Integration Testing
 ```bash
 # Verify vendor data loading
-curl -s http://localhost:3000/site | grep -o "Rev\|Descript\|Sonix\|Trint\|Otter.ai"
+curl -s http://localhost:3000/find | grep -o "Rev\|Descript\|Sonix\|Trint\|Otter.ai"
 ```
 
 ## 🔧 Development Operations
